@@ -1,3 +1,5 @@
+import os
+from uuid import uuid4
 from html2image import Html2Image
 
 hti = Html2Image()
@@ -21,7 +23,7 @@ new_html = createPostCommentHtml(
     "an\n\n\n\nexample of a wow\n really \n\ncool\n\n\nplace",
 )
 
-def htmlToImage(html, save_path):
+def htmlToImage(html, dir_path):
+    save_path = os.path.join(dir_path, f"{uuid4()}.png")
     hti.screenshot(html_str=html, save_as=save_path)
-
-print(new_html)
+    return save_path
