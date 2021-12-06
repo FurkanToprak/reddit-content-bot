@@ -1,3 +1,7 @@
+from html2image import Html2Image
+
+hti = Html2Image()
+
 def createPostHtml(subreddit, title, author, body):
     parsedBody = "".join(
         list(map(lambda bodyLine: f"<div>{bodyLine}</div>", body.split("\n")))
@@ -16,5 +20,8 @@ new_html = createPostCommentHtml(
     "BigPlunk",
     "an\n\n\n\nexample of a wow\n really \n\ncool\n\n\nplace",
 )
+
+def htmlToImage(html, save_path):
+    hti.screenshot(html_str=html, save_as=save_path)
 
 print(new_html)
