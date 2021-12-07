@@ -3,8 +3,9 @@ import os
 import praw
 from praw.models import MoreComments
 from tempfile import TemporaryDirectory
-from RedditPostMaker import createPostHtml, createPostCommentHtml, htmlToImage
+from RedditPostMaker import createPostHtml, createPostCommentHtml, htmlToImage, combineImages
 from utils.ContentRegulation import commentHasUrl
+
 load_dotenv()
 reddit_user_agent = os.environ.get("REDDIT_USER_AGENT")
 reddit_client_id = os.environ.get("REDDIT_CLIENT_ID")
@@ -63,8 +64,11 @@ def create_video(subreddit, submission):
                 continue # skip URLS so text-to-speech doesn't mess up
             else:
                 commentHtml = createPostCommentHtml(submission_comment.author.name, submission_comment.body)
-                commentImage = htmlToImage(commentHtml, dir_path=tmpDir)
-                print('comment', num_comments, commentImage)
+                print('------------------HELLO')
+                commentImage = combineImages([htmlToImage(commentHtml, dir_path=tmpDir)], dir_path=tmpDir)
+                # TODO: center image
+                print(commentImage)
+                # create audio
                 comments.append(commentImage)
         postHtml = createPostHtml(
             subreddit.title,
@@ -72,10 +76,10 @@ def create_video(subreddit, submission):
             submission.author.name,
             submission.selftext,
         )
-        postImg = htmlToImage(postHtml, dir_path=tmpDir)
-        print(postImg)
-        exit()
-
+        postImg = combineImages([htmlToImage(postHtml, dir_path=tmpDir)], dir_path=tmpDir)
+        # slides in order are postImg, comments
+        # create corresponding audio
+        # stitch all audio and slides.
 
 def create_todays_top():
     for sub_to_scrape in subs_to_scrape:

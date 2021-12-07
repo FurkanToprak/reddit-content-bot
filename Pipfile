@@ -8,6 +8,7 @@ praw = "*"
 python-dotenv = "*"
 html2image = "*"
 uuid = "*"
+pillow = "*"
 
 [dev-packages]
 

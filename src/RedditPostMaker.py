@@ -1,7 +1,7 @@
 import os
 from uuid import uuid4
 from html2image import Html2Image
-
+from PIL import Image
 
 def createPostHtml(subreddit, title, author, body):
     parsedBody = "".join(
@@ -20,10 +20,22 @@ def createPostCommentHtml(author, body):
 
 
 def htmlToImage(html, dir_path=''):
-    hti = Html2Image()
+    hti = Html2Image(output_path=dir_path)
     file_name = f"{uuid4()}.png"
-    # save_path = os.path.join(dir_path, file_name) # TODO: save in dir_path
-    with open(file_name, 'w'):
+    save_path = os.path.join(dir_path, file_name) # TODO: save in dir_path
+    with open(save_path, 'w'):
         pass
-    hti.screenshot(html_str=html, save_as=file_name, size=(1080, 360))
-    return file_name
+    hti.screenshot(html_str=html, save_as=file_name, size=(1280, 360))
+    return save_path
+
+def combineImages(images, dir_path='', backgroundColor="#030303", size=(1280, 720)):
+    combinedImage = Image.new("RGB", size, color=backgroundColor)
+    for image in images:
+        image_path = os.path.join(dir_path, image)
+        pil_image = Image.open(image_path)
+        center_image_height = pil_image.size[1]
+        combinedImage.paste(pil_image, (0, center_image_height))
+    imagePath = f'combined-{uuid4()}.png'
+    fullImagePath = os.path.join(dir_path, imagePath)
+    combinedImage.save(fullImagePath)
+    return imagePath
