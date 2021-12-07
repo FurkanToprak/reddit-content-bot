@@ -9,6 +9,8 @@ python-dotenv = "*"
 html2image = "*"
 uuid = "*"
 pillow = "*"
+opencv-python = "*"
+numpy = "*"
 
 [dev-packages]
 

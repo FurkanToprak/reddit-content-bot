@@ -3,7 +3,7 @@ import os
 import praw
 from praw.models import MoreComments
 from tempfile import TemporaryDirectory
-from RedditPostMaker import createPostHtml, createPostCommentHtml, htmlToImage, combineImages
+from RedditPostMaker import compileImagesToVideo, createPostHtml, createPostCommentHtml, htmlToImage, combineImages
 from utils.ContentRegulation import commentHasUrl
 
 load_dotenv()
@@ -50,8 +50,15 @@ comment_sort_method = "top"
 
 def create_video(subreddit, submission):
     with TemporaryDirectory() as tmpDir:
+        postHtml = createPostHtml(
+            subreddit.title,
+            submission.title,
+            submission.author.name,
+            submission.selftext,
+        )        
+        postImg = combineImages([htmlToImage(postHtml, dir_path=tmpDir)], dir_path=tmpDir)
+        frames = [postImg]
         submission.comment_sort = comment_sort_method
-        comments = []
         num_comments = 0
         for submission_comment in submission.comments:
             if num_comments == comment_limit:
@@ -64,22 +71,16 @@ def create_video(subreddit, submission):
                 continue # skip URLS so text-to-speech doesn't mess up
             else:
                 commentHtml = createPostCommentHtml(submission_comment.author.name, submission_comment.body)
-                print('------------------HELLO')
                 commentImage = combineImages([htmlToImage(commentHtml, dir_path=tmpDir)], dir_path=tmpDir)
-                # TODO: center image
-                print(commentImage)
                 # create audio
-                comments.append(commentImage)
-        postHtml = createPostHtml(
-            subreddit.title,
-            submission.title,
-            submission.author.name,
-            submission.selftext,
-        )
-        postImg = combineImages([htmlToImage(postHtml, dir_path=tmpDir)], dir_path=tmpDir)
-        # slides in order are postImg, comments
+                frames.append(commentImage)
+
         # create corresponding audio
         # stitch all audio and slides.
+        videoPath = compileImagesToVideo(frames, [3]* len(frames), dir_path=tmpDir)
+        print("OUTPUT", videoPath)
+        while True:
+            pass
 
 def create_todays_top():
     for sub_to_scrape in subs_to_scrape:
