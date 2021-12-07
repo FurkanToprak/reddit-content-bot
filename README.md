@@ -1,6 +1,8 @@
 # reddit-content-bot
 Uploads automated videos made from scraped reddit posts using text-to-speech.
 # Dependencies
+## Browser
+Requires `Chrome` or `Chromium` browser for `HTML2Image`.
 ## Installing
 `pipenv install`
 ## Activate Environment
@@ -8,5 +10,9 @@ Uploads automated videos made from scraped reddit posts using text-to-speech.
 # .env file
 Keep a file named `.env` at the root of the project directory. The format should look like:
 ```
-#TODO
+REDDIT_USER_AGENT=
+REDDIT_CLIENT_ID=
+REDDIT_CLIENT_SECRET=
+REDDIT_USERNAME=
+REDDIT_PASSWORD=
 ```
