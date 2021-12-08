@@ -84,10 +84,11 @@ def create_video(subreddit, submission):
                 texts.append(submission_comment.body)
                 frames.append(commentImage)
         # create corresponding audio
-        combinedAudioPath, postAudioLengths = createAudio(texts)
+        combinedAudioPath, postAudioLengths = createAudio(texts, dir_path=tmpDir)
         # stitch all audio and slides.
         videoPath = compileImagesToVideo(frames, postAudioLengths, dir_path=tmpDir)
         finalVideoPath = stitchAudioToMovie(videoPath, combinedAudioPath, dir_path=tmpDir)
+        print(finalVideoPath)
         while True:
             pass
         return finalVideoPath
