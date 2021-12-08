@@ -89,8 +89,6 @@ def create_video(subreddit, submission):
         videoPath = compileImagesToVideo(frames, postAudioLengths, dir_path=tmpDir)
         finalVideoPath = stitchAudioToMovie(videoPath, combinedAudioPath, dir_path=tmpDir)
         print(finalVideoPath)
-        while True:
-            pass
         return finalVideoPath
 
 def create_todays_top():
