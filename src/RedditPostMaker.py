@@ -66,10 +66,10 @@ def compileImagesToVideo(images, frame_lengths, dir_path='', size=(1280, 720), f
     return videoPath
 
 def createTitleBanner(subreddit, title, dir_path=''):
-    html = f'<div style="width: 1200;text-align: center;background-color: #030303;"><div style="color: #ff571e;font-family: sans-serif;font-size: 35px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div><div style="padding-top: 40; color: white; font-family: sans-serif;font-size: 30px;">{title}</div></div>'
+    html = f'<div style="width: 1200;text-align: center;background-color: #030303;"><img src="{flippedRedditPath}" style="max-height:300px"/><div style="color: #ff571e;font-family: sans-serif;font-size: 35px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div><div style="padding-top: 40; color: white; font-family: sans-serif;font-size: 30px;">{title}</div></div>'
     return htmlToImage(html, dir_path=dir_path)
 
 def createThumbnail(subreddit, title, dir_path=''):
     titleBannerImage = createTitleBanner(subreddit, title, dir_path=dir_path)
-    thumbnailPath = combineImages([flippedRedditPath, titleBannerImage], dir_path=dir_path, backgroundColor="#ff571e", size=(1280, 720))
+    thumbnailPath = combineImages([titleBannerImage], prefix='thumbnail', dir_path=dir_path, backgroundColor="#ff571e", size=(1280, 720))
     return thumbnailPath

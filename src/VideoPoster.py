@@ -109,6 +109,10 @@ def create_todays_top(uploadToYouTube=False):
                 if uploadToYouTube:
                     uploadYoutube(sub_video, sub_video_title, sub_movie_description, sub_movie_tags, sub_movie_category, thumbnail_path)
         if not uploadToYouTube:
+            if os.name == "nt": # clear for windows
+                os.system('cls')
+            else:
+                os.system('clear') # clear for unix
             print('Output directory:', tmpDir)
             print('Videos:', finalVids)
             while True:
