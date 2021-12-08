@@ -1,9 +1,10 @@
 from simple_youtube_api.Channel import Channel
 from simple_youtube_api.LocalVideo import LocalVideo
+from utils.Paths import credentialStoragePath, ytSecretPath
 
 # loggin into the channel
 channel = Channel()
-channel.login("yt_client_secret.json", "credentials.storage") # client secret path, storage path
+channel.login(ytSecretPath, credentialStoragePath) # client secret path, storage path
 
 def uploadYoutube(videoPath, title, description, tags, category, thumbnailPath):
     # setting up the video that is going to be uploaded

@@ -99,8 +99,8 @@ def create_todays_top():
                 sub_video, post_title, sub_video_title = create_video(this_sub, submission, tmpDir)
                 thumbnail_path = createThumbnail(this_sub, post_title, tmpDir)
                 sub_movie_description = f"Reddit shorts funny compilation. {sub_video_title}"
-                sub_movie_tags = [ "reddit", "compilation", "funny", this_sub, f"r/{this_sub}" ]
-                sub_movie_category = "Entertainment"
+                sub_movie_tags = [ "reddit", "compilation", "funny", sub_title, f"r/{this_sub}" ]
+                sub_movie_category = 1 # see: https://github.com/jonnekaunisto/simple-youtube-api/blob/master/simple_youtube_api/youtube_constants.py
                 uploadYoutube(sub_video, sub_video_title, sub_movie_description, sub_movie_tags, sub_movie_category, thumbnail_path)
 
 
