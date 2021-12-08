@@ -6,7 +6,7 @@ import cv2
 from utils.Paths import flippedRedditPath
 
 def createIntroHtml():
-    return f'<div style="background-color: #ff571e;display: flex; align-items: center; flex-direction: column;"><img src="{flippedRedditPath}" style="max-height: 600;"/><div style="font-family: sans-serif; color: white; font-size: 50px;text-align: center;">Reddit<b>Shorts</b></div><div style="font-family: sans-serif; color: white; font-size: 30px;text-align: center;">subscribe for daily content!</div></div>'
+    return f'<div style="background-color: #ff571e;display: flex; align-items: center; flex-direction: column;"><img src="{flippedRedditPath}" style="max-height: 600;"/><div style="font-family: sans-serif; color: white; font-size: 50px;text-align: center;">Lost Inside <b>Reddit</b></div><div style="font-family: sans-serif; color: white; font-size: 30px;text-align: center;">subscribe for daily content!</div></div>'
 
 def createPostHtml(subreddit, title, author, body, imgUrl):
     parsedBody = "".join(
