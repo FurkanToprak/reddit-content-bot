@@ -16,3 +16,9 @@ REDDIT_CLIENT_SECRET=
 REDDIT_USERNAME=
 REDDIT_PASSWORD=
 ```
+# Set Environment Variable to Google OAuth JSON
+Ge a service credential from Google Cloud, with Text-To-Speech API enabled.
+Then set the environment variable:
+```
+export GOOGLE_APPLICATION_CREDENTIALS = "PATH/TO/GOOGLE_AUTH.json"
+```

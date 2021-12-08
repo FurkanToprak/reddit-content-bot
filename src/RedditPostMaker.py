@@ -3,7 +3,6 @@ from uuid import uuid4
 from html2image import Html2Image
 from PIL import Image
 import cv2
-import numpy as np
 
 def createPostHtml(subreddit, title, author, body):
     parsedBody = "".join(
@@ -47,7 +46,7 @@ def compileImagesToVideo(images, frame_lengths, dir_path='', size=(1280, 720), f
     fourcc= cv2.VideoWriter_fourcc(*'mp4v')
     videoWriter = cv2.VideoWriter(videoPath, fourcc, fps, size)
     for i in range(len(images)):
-        frame_length = frame_lengths[i]
+        frame_length = round(frame_lengths[i])
         frame = cv2.imread(images[i])
         for _frame_step in range(frame_length):
             videoWriter.write(frame)

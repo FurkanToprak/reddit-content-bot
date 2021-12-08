@@ -11,6 +11,9 @@ uuid = "*"
 pillow = "*"
 opencv-python = "*"
 numpy = "*"
+google-cloud-texttospeech = "*"
+mutagen = "*"
+moviepy = "*"
 
 [dev-packages]
 
