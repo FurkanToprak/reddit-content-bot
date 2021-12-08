@@ -95,7 +95,7 @@ def create_todays_top():
         for sub_to_scrape in subs_to_scrape:
             this_sub = reddit.subreddit(sub_to_scrape)
             sub_title = this_sub.title
-            for submission in this_sub.top("day", limit=questions_per_day):
+            for submission in this_sub.top("day", limit=questions_per_sub):
                 sub_video, post_title, sub_video_title = create_video(this_sub, submission, tmpDir)
                 thumbnail_path = createThumbnail(this_sub, post_title, tmpDir)
                 sub_movie_description = f"Reddit shorts funny compilation. {sub_video_title}"
