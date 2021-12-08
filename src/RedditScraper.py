@@ -52,7 +52,7 @@ subs_to_scrape = [
     # "AskHistorians"
 ]
 questions_per_day = 1
-comment_limit = 10
+comment_limit = 15
 comment_sort_method = "top"
 
 def create_video(subreddit, submission):
@@ -88,14 +88,14 @@ def create_video(subreddit, submission):
         # stitch all audio and slides.
         videoPath = compileImagesToVideo(frames, postAudioLengths, dir_path=tmpDir)
         finalVideoPath = stitchAudioToMovie(videoPath, combinedAudioPath, dir_path=tmpDir)
-        print(finalVideoPath)
-        return finalVideoPath
+        finalVideoTitle = f'{submission.title} | {subreddit.title}'
+        return finalVideoPath, finalVideoTitle
 
 def create_todays_top():
     for sub_to_scrape in subs_to_scrape:
         this_sub = reddit.subreddit(sub_to_scrape)
         for submission in this_sub.top("day", limit=questions_per_day):
-            create_video(this_sub, submission)
+            sub_video, sub_video_title = create_video(this_sub, submission)
 
 
 create_todays_top()
