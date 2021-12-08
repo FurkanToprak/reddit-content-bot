@@ -29,25 +29,25 @@ reddit = praw.Reddit(
 )
 
 subs_to_scrape = [
-    "AskReddit",
-    "facepalm",
-    "antiwork",
-    "MaliciousCompliance",
-    "NoStupidQuestions",
+    # "AskReddit",
+    # "facepalm",
+    # "antiwork",
+    # "MaliciousCompliance",
+    # "NoStupidQuestions",
     "AmItheAsshole",
-    "AskMen",
-    "AskWomen",
-    "unpopularopinion",
-    "todayilearned",
-    "tifu",
-    "explainlikeimfive",
-    "LifeProTips",
-    "TrueOffMyChest",
-    "TooAfraidToAsk",
-    "askscience",
-    "Showerthoughts",
-    "Jokes",
-    "AskHistorians"
+    # "AskMen",
+    # "AskWomen",
+    # "unpopularopinion",
+    # "todayilearned",
+    # "tifu",
+    # "explainlikeimfive",
+    # "LifeProTips",
+    # "TrueOffMyChest",
+    # "TooAfraidToAsk",
+    # "askscience",
+    # "Showerthoughts",
+    # "Jokes",
+    # "AskHistorians"
 ]
 questions_per_sub = 3
 comment_limit = 15
@@ -105,7 +105,7 @@ def create_todays_top(uploadToYouTube=False):
                 sub_movie_description = f"Reddit shorts funny compilation. {sub_video_title}"
                 sub_movie_tags = [ "reddit", "compilation", "funny", sub_title, f"r/{this_sub}" ]
                 sub_movie_category = 1 # see: https://github.com/jonnekaunisto/simple-youtube-api/blob/master/simple_youtube_api/youtube_constants.py
-                finalVids.append((sub_video_title, sub_video, thumbnail_path))
+                finalVids.append({'title': sub_video_title, 'video': sub_video, 'thumbnail': thumbnail_path})
                 if uploadToYouTube:
                     uploadYoutube(sub_video, sub_video_title, sub_movie_description, sub_movie_tags, sub_movie_category, thumbnail_path)
         if not uploadToYouTube:

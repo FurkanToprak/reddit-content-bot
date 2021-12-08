@@ -6,7 +6,7 @@ import cv2
 from utils.Paths import flippedRedditPath
 
 def createIntroHtml():
-    return '<div style="background-color: #ff571e;display: flex; align-items: center; flex-direction: column;"><img src="icons/flipped_reddit.png" style="max-height: 600;"/><div style="font-family: sans-serif; color: white; font-size: 50px;text-align: center;">Reddit<b>Shorts</b></div><div style="font-family: sans-serif; color: white; font-size: 30px;text-align: center;">subscribe for daily content!</div></div>'
+    return f'<div style="background-color: #ff571e;display: flex; align-items: center; flex-direction: column;"><img src="{flippedRedditPath}" style="max-height: 600;"/><div style="font-family: sans-serif; color: white; font-size: 50px;text-align: center;">Reddit<b>Shorts</b></div><div style="font-family: sans-serif; color: white; font-size: 30px;text-align: center;">subscribe for daily content!</div></div>'
 
 def createPostHtml(subreddit, title, author, body, imgUrl):
     parsedBody = "".join(
@@ -46,12 +46,19 @@ def combineImages(images, dir_path='', prefix='', backgroundColor="#030303", siz
     combinedImage.save(fullImagePath)
     return fullImagePath
 
-def compileImagesToVideo(images, frame_lengths, dir_path='', size=(1280, 720), fps=1):
+def compileImagesToVideo(images, frame_lengths, dir_path='', size=(1280, 720), fps=4):
     videoPath = os.path.join(dir_path, f'{uuid4()}.mp4')
     fourcc= cv2.VideoWriter_fourcc(*'mp4v')
     videoWriter = cv2.VideoWriter(videoPath, fourcc, fps, size)
+    # add intro
+    intro_image = htmlToImage(createIntroHtml(), 'intro-img', dir_path=dir_path)
+    intro_frame = cv2.imread(intro_image)
+    intro_frame_length = round(frame_lengths[0] * fps)
+    for _frame_step_intro in range(intro_frame_length):
+        videoWriter.write(intro_frame)
+    # add content
     for i in range(len(images)):
-        frame_length = max(1, round(frame_lengths[i]))
+        frame_length = round(frame_lengths[1+i] * fps)
         frame = cv2.imread(images[i])
         for _frame_step in range(frame_length):
             videoWriter.write(frame)
