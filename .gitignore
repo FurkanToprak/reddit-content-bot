@@ -4,3 +4,5 @@
 *.mp3
 *.mp4
 google-auth.json
+credentials.storage
+yt_client_secret.json

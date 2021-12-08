@@ -1,3 +1,4 @@
+from YouTubeAdmin import uploadYoutube
 from dotenv import load_dotenv
 import os
 import praw
@@ -96,6 +97,11 @@ def create_todays_top():
         this_sub = reddit.subreddit(sub_to_scrape)
         for submission in this_sub.top("day", limit=questions_per_day):
             sub_video, sub_video_title = create_video(this_sub, submission)
+            thumbnail_path = ""
+            sub_movie_description = ""
+            sub_movie_tags = [ "" ]
+            sub_movie_category = ""
+            uploadYoutube(sub_video, sub_video_title, sub_movie_description, sub_movie_tags, sub_movie_category, thumbnail_path)
 
 
 create_todays_top()
