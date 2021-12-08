@@ -6,7 +6,7 @@ from praw.models import MoreComments
 from tempfile import TemporaryDirectory
 from RedditPostMaker import compileImagesToVideo, createPostHtml, createPostCommentHtml, createThumbnail, htmlToImage, combineImages
 from RedditAudioMaker import stitchAudioToMovie
-from utils.ContentRegulation import commentHasUrl
+from utils.ContentRegulation import commentHasUrl, hasImgUrl, hasVideoUrl
 from utils.TextToSpeech import createAudio
 from utils.Paths import projectPath
 from YouTubeAdmin import uploadYoutube
@@ -31,9 +31,7 @@ reddit = praw.Reddit(
 subs_to_scrape = [
     "AskReddit",
     "facepalm",
-    "gaming",
     "antiwork",
-    "wallstreetbets",
     "MaliciousCompliance",
     "NoStupidQuestions",
     "AmItheAsshole",
@@ -57,13 +55,14 @@ comment_sort_method = "top"
 
 def create_video(subreddit, submission, dir_path=''):
         postHtml = createPostHtml(
-            subreddit.title,
+            subreddit.display_name,
             submission.title,
             submission.author.name,
             submission.selftext,
+            submission.url if hasImgUrl(submission.url) else None
         )
         postCombinedText = submission.title + ' ' + submission.selftext
-        postImg = combineImages([htmlToImage(postHtml, dir_path=dir_path)], dir_path=dir_path)
+        postImg = combineImages([htmlToImage(postHtml, prefix='post-pic',dir_path=dir_path)], dir_path=dir_path)
         frames = [postImg]
         submission.comment_sort = comment_sort_method
         num_comments = 0
@@ -78,8 +77,9 @@ def create_video(subreddit, submission, dir_path=''):
             elif commentHasUrl(submission_comment):
                 continue # skip URLS so text-to-speech doesn't mess up
             else:
-                commentHtml = createPostCommentHtml(submission_comment.author.name, submission_comment.body)
-                commentImage = combineImages([htmlToImage(commentHtml, dir_path=dir_path)], dir_path=dir_path)
+                comment_author = submission_comment.author.name if submission_comment.author else "[deleted]"
+                commentHtml = createPostCommentHtml(comment_author, submission_comment.body)
+                commentImage = combineImages([htmlToImage(commentHtml, prefix='comment-pic',dir_path=dir_path)], dir_path=dir_path)
                 texts.append(submission_comment.body)
                 frames.append(commentImage)
         # create corresponding audio
@@ -87,21 +87,31 @@ def create_video(subreddit, submission, dir_path=''):
         # stitch all audio and slides.
         videoPath = compileImagesToVideo(frames, postAudioLengths, dir_path=dir_path)
         finalVideoPath = stitchAudioToMovie(videoPath, combinedAudioPath, dir_path=dir_path)
-        finalVideoTitle = f'{submission.title} | {subreddit.title}'
+        finalVideoTitle = f'{submission.title} | r/{subreddit.display_name}'
         return finalVideoPath, submission.title, finalVideoTitle
 
-def create_todays_top():
+def create_todays_top(uploadToYouTube=False):
     with TemporaryDirectory() as tmpDir:
+        finalVids = []
         for sub_to_scrape in subs_to_scrape:
             this_sub = reddit.subreddit(sub_to_scrape)
             sub_title = this_sub.title
             for submission in this_sub.top("day", limit=questions_per_sub):
+                if hasVideoUrl(submission.url): # filter options
+                    print("Skipped reddit post:", submission.permalink)
+                    continue # skip if links to something that is not an image
                 sub_video, post_title, sub_video_title = create_video(this_sub, submission, tmpDir)
                 thumbnail_path = createThumbnail(this_sub, post_title, tmpDir)
                 sub_movie_description = f"Reddit shorts funny compilation. {sub_video_title}"
                 sub_movie_tags = [ "reddit", "compilation", "funny", sub_title, f"r/{this_sub}" ]
                 sub_movie_category = 1 # see: https://github.com/jonnekaunisto/simple-youtube-api/blob/master/simple_youtube_api/youtube_constants.py
-                uploadYoutube(sub_video, sub_video_title, sub_movie_description, sub_movie_tags, sub_movie_category, thumbnail_path)
-
+                finalVids.append((sub_video_title, sub_video, thumbnail_path))
+                if uploadToYouTube:
+                    uploadYoutube(sub_video, sub_video_title, sub_movie_description, sub_movie_tags, sub_movie_category, thumbnail_path)
+        if not uploadToYouTube:
+            print('Output directory:', tmpDir)
+            print('Videos:', finalVids)
+            while True:
+                pass # suspend program so videos can be selected
 
 create_todays_top()
