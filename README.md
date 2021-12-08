@@ -22,3 +22,7 @@ Then set the environment variable:
 ```
 export GOOGLE_APPLICATION_CREDENTIALS = "PATH/TO/GOOGLE_AUTH.json"
 ```
+# Run
+```
+./make_vids.sh
+```
