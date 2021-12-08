@@ -30,28 +30,28 @@ reddit = praw.Reddit(
 
 subs_to_scrape = [
     "AskReddit",
-    # "facepalm",
-    # "gaming",
-    # "antiwork",
-    # "wallstreetbets",
-    # "MaliciousCompliance",
-    # "NoStupidQuestions",
-    # "AmItheAsshole",
-    # "AskMen",
-    # "AskWomen",
-    # "unpopularopinion",
-    # "todayilearned",
-    # "tifu",
-    # "explainlikeimfive",
-    # "LifeProTips",
-    # "TrueOffMyChest",
-    # "TooAfraidToAsk",
-    # "askscience",
-    # "Showerthoughts",
-    # "Jokes",
-    # "AskHistorians"
+    "facepalm",
+    "gaming",
+    "antiwork",
+    "wallstreetbets",
+    "MaliciousCompliance",
+    "NoStupidQuestions",
+    "AmItheAsshole",
+    "AskMen",
+    "AskWomen",
+    "unpopularopinion",
+    "todayilearned",
+    "tifu",
+    "explainlikeimfive",
+    "LifeProTips",
+    "TrueOffMyChest",
+    "TooAfraidToAsk",
+    "askscience",
+    "Showerthoughts",
+    "Jokes",
+    "AskHistorians"
 ]
-questions_per_day = 1
+questions_per_sub = 3
 comment_limit = 15
 comment_sort_method = "top"
 
