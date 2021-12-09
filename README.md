@@ -43,3 +43,6 @@ thumbnail; string # path to thumbnail
 The program can automatically upload to YouTube as well (must be enabled through the code (See `VideoPoster.py`)), but the videos may be caught in a "Spam Filter", which is against the YouTube ToS and will be uploaded as private, non-monetized videos.
 
 The program will open to your temp directory with all of the content and component content if you want to edit anything in/out. If you're just interested in seeing the final output, just search for `"["` within the file explorer and you'll narrow it down to your titles, thumbnails, and videos.
+
+# Customize your channel
+Replace `icons/logo.png` with any icon and `sounds/intro.png` with any sound you wish.
