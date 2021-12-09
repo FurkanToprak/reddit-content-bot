@@ -17,12 +17,29 @@ REDDIT_USERNAME=
 REDDIT_PASSWORD=
 ```
 # Set Environment Variable to Google OAuth JSON
-Ge a service credential from Google Cloud, with Text-To-Speech API enabled.
-Then set the environment variable:
-```
-export GOOGLE_APPLICATION_CREDENTIALS = "PATH/TO/GOOGLE_AUTH.json"
-```
+
 # Run
 ```
 ./make_vids.sh
 ```
+
+# Aborting and Error Catching
+Sometimes the google text-to-speech API will corrupt (probably input-based) or the Youtube API will meet some quota or spam filter. If any of these errors occur, or you'd like to prematurely abort by using [Ctrl + C] on the terminal, you will get the output in the form of an array of JSONS:
+```
+[{
+title: string; # video title
+video: string; # path to video
+thumbnail; string # path to thumbnail
+}...]
+```
+# Configuring Cloud Credentials
+* Enable `Youtube Data API v3` and `Text-To-Speech API` on [google console.](https://console.cloud.google.com/apis/)
+* Generate a service account 
+* save the credentials in `.env` under the aforementioned schema.
+* Generate an OAuth 2.0 Client ID (Desktop Client) and save the json on disk.
+* Then set the environment variable: `export GOOGLE_APPLICATION_CREDENTIALS = "PATH/TO/GOOGLE_AUTH.json"`
+
+# The results
+The program can automatically upload to YouTube as well (must be enabled through the code (See `VideoPoster.py`)), but the videos may be caught in a "Spam Filter", which is against the YouTube ToS and will be uploaded as private, non-monetized videos.
+
+The program will open to your temp directory with all of the content and component content if you want to edit anything in/out. If you're just interested in seeing the final output, just search for `"["` within the file explorer and you'll narrow it down to your titles, thumbnails, and videos.
