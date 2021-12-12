@@ -48,20 +48,20 @@ subs_to_scrape = [
     # "AmItheAsshole",
     # "AskMen",
     # "AskWomen",
-    # "unpopularopinion",
+    "unpopularopinion",
     # "todayilearned",
-    # "tifu",
+    "tifu",
     # "explainlikeimfive",
     # "LifeProTips",
     # "TrueOffMyChest",
-    # "TooAfraidToAsk",
+    "TooAfraidToAsk",
     # "askscience",
     # "Showerthoughts",
     # "Jokes",
-    "AskHistorians"
+    # "AskHistorians"
 ]
 questions_per_sub = 3
-comment_limit = 15
+comment_limit = 20
 comment_sort_method = "top"
 
 
@@ -76,7 +76,7 @@ def create_video(subreddit, submission, outputPath, dir_path=""):
     postCombinedText = submission.title + " " + submission.selftext
     postImgPath = os.path.join(dir_path, f"post-image-{uuid4()}.png")
     postImg = combineImages(
-        [htmlToImage(postHtml, dir_path=dir_path)], postImgPath, dir_path=dir_path
+        [htmlToImage(postHtml, prefix='combined-post-image',dir_path=dir_path)], postImgPath, dir_path=dir_path
     )
     frames = [postImg]
     submission.comment_sort = comment_sort_method
@@ -100,7 +100,11 @@ def create_video(subreddit, submission, outputPath, dir_path=""):
             commentHtml = createPostCommentHtml(comment_author, submission_comment.body)
             commentImagePath = os.path.join(dir_path, f"comment-image-{uuid4()}.png")
             commentImage = combineImages(
-                [htmlToImage(commentHtml, dir_path=dir_path)],
+                [
+                    htmlToImage(
+                        commentHtml, prefix="comment-image-html", dir_path=dir_path
+                    )
+                ],
                 commentImagePath,
                 dir_path=dir_path,
             )
@@ -114,18 +118,23 @@ def create_video(subreddit, submission, outputPath, dir_path=""):
         videoPath, combinedAudioPath, outputPath, dir_path=dir_path
     )
     finalVideoTitle = f"{submission.title} | r/{subreddit.display_name}"
-    return finalVideoPath, submission.title, finalVideoTitle
+    # max video title length
+    finalVideoTitle = finalVideoTitle[:min(len(finalVideoTitle), 100)]
+    return finalVideoPath, finalVideoTitle
 
 
-def terminate(tmpDir, finalVids):
+def terminate(tmpDir, finalVids, clearStdout=True):
     if platform == "linux" or platform == "linux2":
-        os.system("clear")  # clear for unix
+        if clearStdout:
+            os.system("clear")  # clear for unix
         os.system(f"xdg-open {tmpDir}")
     elif platform == "darwin":
-        os.system("clear")
+        if clearStdout:
+            os.system("clear")
         os.system(f"open {tmpDir}")
     else:  # presumably windows. otherwise, go fuck urself
-        os.system("cls")
+        if clearStdout:
+            os.system("cls")
         os.startfile(tmpDir)
     print("Output directory:", tmpDir)
     print("Videos:", finalVids)
@@ -148,11 +157,11 @@ def create_todays_top(uploadToYouTube=False):
                         continue  # skip if links to something that is not an image
                     videoPath = os.path.join(tmpDir, f"[{video_num}] Video.mp4")
                     thumbnailPath = os.path.join(tmpDir, f"[{video_num}] Thumbnail.png")
-                    sub_video, post_title, sub_video_title = create_video(
+                    sub_video, sub_video_title = create_video(
                         this_sub, submission, videoPath, dir_path=tmpDir
                     )
                     thumbnail_path = createThumbnail(
-                        this_sub, post_title, thumbnailPath, tmpDir
+                        this_sub, thumbnailPath, tmpDir
                     )
                     with open(
                         os.path.join(tmpDir, f"[{video_num}] Video Title.txt"), "w"
@@ -176,19 +185,26 @@ def create_todays_top(uploadToYouTube=False):
                             "thumbnail": thumbnail_path,
                         }
                     )
-                    video_num += 1
                     if uploadToYouTube:
-                        uploadYoutube(
-                            sub_video,
-                            sub_video_title,
-                            sub_movie_description,
-                            sub_movie_tags,
-                            sub_movie_category,
-                            thumbnail_path,
-                        )
+                        print(f"Uploading Video #{video_num} to YouTube...")
+                        try:
+                            uploadYoutube(
+                                sub_video,
+                                sub_video_title,
+                                sub_movie_description,
+                                sub_movie_tags,
+                                sub_movie_category,
+                                thumbnail_path,
+                            )
+                            print("Done!")
+                        except Exception as upload_error:
+                            print(upload_error)
+                            print("Failed!")
+                    video_num += 1
             if not uploadToYouTube:
                 terminate(tmpDir, finalVids)
-        except:
+        except Exception as err:
+            print(err)
             terminate(tmpDir, finalVids)
 
 

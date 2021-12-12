@@ -8,3 +8,6 @@ credentials.storage
 yt_client_secret.json
 !icons
 !sounds
+thumbnail-memes/*.png
+thumbnail-memes/*.jpg
+thumbnail-memes/*.webp

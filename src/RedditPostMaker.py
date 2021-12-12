@@ -3,7 +3,7 @@ from uuid import uuid4
 from html2image import Html2Image
 from PIL import Image
 import cv2
-from utils.Paths import logoPath
+from utils.Paths import getRandomMemePath, logoPath
 
 
 def createIntroHtml():
@@ -32,10 +32,14 @@ def createPostCommentHtml(author, body):
 def htmlToImage(html, prefix="", dir_path=""):
     hti = Html2Image(output_path=dir_path)
     file_name = f"{prefix}-{uuid4()}.png"
-    save_path = os.path.join(dir_path, file_name)  # TODO: save in dir_path
+    save_path = os.path.join(dir_path, file_name)
     with open(save_path, "w"):
         pass
-    hti.screenshot(html_str=html, save_as=file_name, size=(1280, 720))
+    try:
+        hti.screenshot(html_str=html, save_as=file_name, size=(1280, 720))
+    except Exception as err:
+        print('error')
+        print(err)
     return save_path
 
 
@@ -76,13 +80,14 @@ def compileImagesToVideo(images, frame_lengths, dir_path="", size=(1280, 720), f
     return videoPath
 
 
-def createTitleBanner(subreddit, title, dir_path=""):
-    html = f'<div style="width: 1200;text-align: center;background-color: #030303;"><img src="{logoPath}" style="max-height:300px"/><div style="color: #ff571e;font-family: sans-serif;font-size: 35px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div><div style="padding-top: 40; color: white; font-family: sans-serif;font-size: 30px;">{title}</div></div>'
-    return htmlToImage(html, dir_path=dir_path)
+def createThumbnailBanner(subreddit, dir_path=""):
+    print(getRandomMemePath())
+    html = f'<div style="width: 1280;height:720;text-align: center;display:flex;flex-direction:column;justify-content:center;align-items:center;background-color: #ff571e;"><div><img src="{logoPath}" style="max-height:300px"/><img src="{getRandomMemePath()}" style="max-height:300px"/><div><div style="color: #fff;font-family: sans-serif;font-size: 50px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div></div>'
+    return htmlToImage(html, prefix="thumbnail", dir_path=dir_path)
 
 
-def createThumbnail(subreddit, title, thumbnailPath, dir_path=""):
-    titleBannerImage = createTitleBanner(subreddit, title, dir_path=dir_path)
+def createThumbnail(subreddit, thumbnailPath, dir_path=""):
+    titleBannerImage = createThumbnailBanner(subreddit, dir_path=dir_path)
     thumbnailPath = combineImages(
         [titleBannerImage],
         thumbnailPath,
