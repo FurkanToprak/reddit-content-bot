@@ -45,4 +45,7 @@ The program can automatically upload to YouTube as well (must be enabled through
 The program will open to your temp directory with all of the content and component content if you want to edit anything in/out. If you're just interested in seeing the final output, just search for `"["` within the file explorer and you'll narrow it down to your titles, thumbnails, and videos.
 
 # Customize your channel
-Replace `icons/logo.png` with any icon and `sounds/intro.png` with any sound you wish.
+Replace `icons/logo.png` with any icon, thumbnail-memes/ with a meme folder (`.jpg`, `.png`, `.webp`), and `sounds/intro.png` with any sound you wish.
+
+## Memes on the thumbnails
+In an attempt to make sexier thumbnails, I take a randomly selected wojak and I paste it in the thumbnail. Get your own meme folder and employ it for engagement purposes.
