@@ -44,6 +44,9 @@ The program can automatically upload to YouTube as well (must be enabled through
 
 The program will open to your temp directory with all of the content and component content if you want to edit anything in/out. If you're just interested in seeing the final output, just search for `"["` within the file explorer and you'll narrow it down to your titles, thumbnails, and videos.
 
+# Autodeletion
+When the script ends, it will clear all produced files from the hard drive. Make sure you save whatever you'd like.
+
 # Customize your channel
 Replace `icons/logo.png` with any icon, thumbnail-memes/ with a meme folder (`.jpg`, `.png`, `.webp`), and `sounds/intro.png` with any sound you wish.
 
