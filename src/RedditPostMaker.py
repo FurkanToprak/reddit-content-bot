@@ -7,7 +7,7 @@ from utils.Paths import getRandomMemePath, logoPath
 
 
 def createIntroHtml():
-    return f'<div style="background-color: #ff571e;display: flex; align-items: center; flex-direction: column;"><img src="{logoPath}" style="max-height: 600;"/><div style="font-family: sans-serif; color: white; font-size: 50px;text-align: center;">Lost Inside <b>Reddit</b></div><div style="font-family: sans-serif; color: white; font-size: 30px;text-align: center;">subscribe for daily content!</div></div>'
+    return f'<div style="background-color: #ff571e;display: flex; align-items: center; flex-direction: column;"><img src="{getRandomMemePath()}" style="max-height: 600;"/><div style="font-family: sans-serif; color: white; font-size: 50px;text-align: center;">Lost Inside <b>Reddit</b></div><div style="font-family: sans-serif; color: white; font-size: 30px;text-align: center;">subscribe for daily content!</div></div>'
 
 
 def createPostHtml(subreddit, title, author, body, imgUrl):
@@ -81,8 +81,7 @@ def compileImagesToVideo(images, frame_lengths, dir_path="", size=(1280, 720), f
 
 
 def createThumbnailBanner(subreddit, dir_path=""):
-    print(getRandomMemePath())
-    html = f'<div style="width: 1280;height:720;text-align: center;display:flex;flex-direction:column;justify-content:center;align-items:center;background-color: #ff571e;"><div><img src="{logoPath}" style="max-height:300px"/><img src="{getRandomMemePath()}" style="max-height:300px"/><div><div style="color: #fff;font-family: sans-serif;font-size: 50px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div></div>'
+    html = f'<div style="width: 1280;height:720;text-align: center;display:flex;flex-direction:column;justify-content:center;align-items:center;background-color: #ff571e;"><div><img src="{getRandomMemePath()}" style="max-height:400px"/><div><div style="color: #fff;font-family: sans-serif;font-size: 50px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div></div>'
     return htmlToImage(html, prefix="thumbnail", dir_path=dir_path)
 
 

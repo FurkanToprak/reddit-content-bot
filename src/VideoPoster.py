@@ -40,25 +40,16 @@ reddit = praw.Reddit(
 )
 
 subs_to_scrape = [
-    # "AskReddit",
-    # "facepalm",
-    # "antiwork",
-    # "MaliciousCompliance",
-    # "NoStupidQuestions",
-    # "AmItheAsshole",
-    # "AskMen",
-    # "AskWomen",
-    "unpopularopinion",
-    # "todayilearned",
-    "tifu",
-    # "explainlikeimfive",
-    # "LifeProTips",
-    # "TrueOffMyChest",
+    "AmItheAsshole",
+    "AskReddit",
     "TooAfraidToAsk",
-    # "askscience",
-    # "Showerthoughts",
-    # "Jokes",
-    # "AskHistorians"
+    "tifu",
+    "AskWomen",
+    "unpopularopinion",
+    "TrueOffMyChest",
+    "AskMen",
+    "NoStupidQuestions",
+    "Showerthoughts",
 ]
 questions_per_sub = 3
 comment_limit = 20
@@ -126,7 +117,7 @@ def create_video(subreddit, submission, outputPath, dir_path=""):
 def terminate(tmpDir, finalVids, clearStdout=True):
     if platform == "linux" or platform == "linux2":
         if clearStdout:
-            os.system("clear")  # clear for unix
+            pass#os.system("clear")  # clear for unix
         os.system(f"xdg-open {tmpDir}")
     elif platform == "darwin":
         if clearStdout:
