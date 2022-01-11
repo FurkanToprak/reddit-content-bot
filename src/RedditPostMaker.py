@@ -81,7 +81,7 @@ def compileImagesToVideo(images, frame_lengths, dir_path="", size=(1280, 720), f
 
 
 def createThumbnailBanner(subreddit, dir_path=""):
-    html = f'<div style="width: 1280;height:720;text-align: center;display:flex;flex-direction:column;justify-content:center;align-items:center;background-color: #ff571e;"><div><img src="{getRandomMemePath()}" style="max-height:400px"/><div><div style="color: #fff;font-family: sans-serif;font-size: 50px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div></div>'
+    html = f'<div style="width: 1280;height:720;text-align: center;display:flex;flex-direction:column;justify-content:center;align-items:center;background-color: #ff571e;"><div><img src="{getRandomMemePath()}" style="max-height:400px"/><div><div style="color: #fff;font-family: sans-serif;font-size: 56px;padding-top: 30px;"><b><u>r/{subreddit}</u></b></div></div>'
     return htmlToImage(html, prefix="thumbnail", dir_path=dir_path)
 
 

@@ -3,11 +3,14 @@
 *.png
 *.mp3
 *.mp4
-google-auth.json
+google_auth.json
 credentials.storage
 yt_client_secret.json
 !icons
 !sounds
 thumbnail-memes/*.png
+thumbnail-memes/*.PNG
 thumbnail-memes/*.jpg
+thumbnail-memes/*.JPG
 thumbnail-memes/*.webp
+thumbnail-memes/*.WEBP

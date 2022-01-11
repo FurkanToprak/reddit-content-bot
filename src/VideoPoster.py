@@ -40,16 +40,16 @@ reddit = praw.Reddit(
 )
 
 subs_to_scrape = [
-    "AmItheAsshole",
-    "AskReddit",
     "TooAfraidToAsk",
+    "unpopularopinion",
     "tifu",
     "AskWomen",
-    "unpopularopinion",
+    "AmItheAsshole",
+    "AskReddit",
     "TrueOffMyChest",
-    "AskMen",
-    "NoStupidQuestions",
-    "Showerthoughts",
+    #"AskMen",
+    #"NoStupidQuestions",
+    #"Showerthoughts",
 ]
 questions_per_sub = 3
 comment_limit = 20
@@ -108,7 +108,7 @@ def create_video(subreddit, submission, outputPath, dir_path=""):
     finalVideoPath = stitchAudioToMovie(
         videoPath, combinedAudioPath, outputPath, dir_path=dir_path
     )
-    finalVideoTitle = f"{submission.title} | r/{subreddit.display_name}"
+    finalVideoTitle = submission.title
     # max video title length
     finalVideoTitle = finalVideoTitle[:min(len(finalVideoTitle), 100)]
     return finalVideoPath, finalVideoTitle
